@@ -3,7 +3,7 @@ const UserService = require("../services/userService");
 exports.createUser = async (req, res) => {
   try {
     let user_exists = await UserService.userExists(req.body);
-    console.log({ user_exists });
+
     if (user_exists)
       return res
         .status(400)
@@ -22,10 +22,21 @@ exports.createUser = async (req, res) => {
 
 exports.listUsers = async (req, res) => {
   try {
-    const users = await UserService.listUsers();
-    res.json(users);
+    let { page = 1, perPage = 1 } = req.query;
+    page = Number(page);
+    perPage = Number(perPage);
+    let users = await UserService.listUsers({ page, perPage });
+    users = users[0];
+    let meta = { count: users.totalCount[0].total };
+    users = users.paginatedData;
+    res.json({
+      message: "list of users",
+      success: true,
+      data: { meta, users },
+    });
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    console.log({ error });
+    res.status(500).json({ success: false, message: "something went wrong" });
   }
 };
 

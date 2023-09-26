@@ -14,6 +14,7 @@ describe("POST /users/", () => {
       last_name: "Doe",
       phone_number: "1234567890",
       address: "123 Main St",
+      email: "djohn@mail.in",
     };
 
     UserService.userExists.mockResolvedValue(false);
@@ -42,6 +43,7 @@ describe("POST /users/", () => {
       last_name: "Smith",
       phone_number: "9876543210",
       address: "456 Elm St",
+      email: "js@mail.her",
     };
 
     UserService.userExists.mockResolvedValue(true);

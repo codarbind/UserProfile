@@ -8,18 +8,16 @@ const {
   hardDeleteUser,
   getUser,
 } = require("../controllers/userController");
-const { validateUser, validateUserId } = require("../validations/validator");
+const { validateUser, validateList } = require("../validations/validator");
 
 // Create a new user profile
 router.post("/", validateUser, createUser);
 
-// Retrieve a list of user profiles
-router.get("/", listUsers);
-
 // Retrieve a single user
 router.get("/:id", getUser);
 
-// Add similar routes for retrieving users by email and username
+// Retrieve a list of user profiles
+router.get("/", validateList, listUsers);
 
 // Update an existing user profile
 router.put("/:id", updateUser);

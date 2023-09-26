@@ -50,9 +50,34 @@ class UserService {
     }
   }
 
-  async listUsers() {
+  async listUsers({ page, perPage }) {
     try {
-      const users = await User.find({ isDeleted: false });
+      const pipeline = [
+        {
+          $match: { isDeleted: false },
+        },
+        {
+          $facet: {
+            totalCount: [
+              {
+                $count: "total",
+              },
+            ],
+            paginatedData: [
+              { $sort: { createdAt: -1 } },
+              {
+                $skip: (page - 1) * perPage,
+              },
+              {
+                $limit: perPage,
+              },
+            ],
+          },
+        },
+      ];
+
+      const users = await User.aggregate(pipeline);
+      console.log({ users });
       return users;
     } catch (error) {
       throw error;
