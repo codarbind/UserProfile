@@ -116,6 +116,7 @@ class UserService {
       const updatedUser = await User.findByIdAndUpdate(id, data, { new: true });
       return updatedUser;
     } catch (error) {
+      console.log({ error });
       throw error;
     }
   }

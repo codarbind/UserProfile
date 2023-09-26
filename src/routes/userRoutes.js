@@ -8,7 +8,11 @@ const {
   hardDeleteUser,
   getUser,
 } = require("../controllers/userController");
-const { validateUser, validateList } = require("../validations/validator");
+const {
+  validateUser,
+  validateList,
+  validateUserId,
+} = require("../validations/validator");
 
 // Create a new user profile
 router.post("/", validateUser, createUser);
@@ -20,7 +24,7 @@ router.get("/:id", getUser);
 router.get("/", validateList, listUsers);
 
 // Update an existing user profile
-router.put("/:id", updateUser);
+router.put("/:id", validateUser, updateUser);
 
 // Soft delete a user
 router.delete("/soft/:idOrEmailOrUsername", softDeleteUser);

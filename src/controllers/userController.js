@@ -71,14 +71,26 @@ exports.getUser = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    const user = await UserService.updateUser(req.params.id, req.body);
+    const { username, first_name, last_name, phone_number, address, email } =
+      req.body;
+    let update_body = {
+      username,
+      first_name,
+      last_name,
+      phone_number,
+      address,
+      email,
+    };
+    const user = await UserService.updateUser(req.params.id, update_body);
     if (!user) {
-      res.status(404).json({ error: "User not found" });
+      res.status(404).json({ success: false, message: "User not found" });
     } else {
-      res.json(user);
+      res
+        .status(200)
+        .json({ data: user, message: "user updated", success: true });
     }
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error", success: false });
   }
 };
 

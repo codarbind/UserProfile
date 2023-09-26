@@ -7,13 +7,10 @@ const userSchema = Joi.object({
   phone_number: Joi.string().required(),
   email: Joi.string().required(),
   address: Joi.string(),
-  isDeleted: Joi.boolean(),
 });
 
-const userIdSchema = Joi.object({
-  id: Joi.string()
-    .required()
-    .regex(/^[0-9a-fA-F]{24}$/),
+const mongoIdSchema = Joi.object({
+  id: Joi.alternatives().try(Joi.string().length(12), Joi.string().length(24)),
 });
 
 const paginationSchema = Joi.object({
@@ -30,9 +27,9 @@ exports.validateUser = (req, res, next) => {
 };
 
 exports.validateUserId = (req, res, next) => {
-  const { error } = userIdSchema.validate(req.params);
+  const { error } = mongoIdSchema.validate(req.params.id);
   if (error) {
-    return res.status(400).json({ error: error.details[0].message });
+    return res.status(400).json({ error: "id not valid" });
   }
   next();
 };
