@@ -13,7 +13,7 @@ exports.createUser = async (req, res) => {
       .status(201)
       .json({ success: true, message: "user created", data: { user } });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "user not created",
     });
@@ -29,14 +29,16 @@ exports.listUsers = async (req, res) => {
     users = users[0];
     let meta = { count: users.totalCount[0].total };
     users = users.paginatedData;
-    res.json({
+    return res.json({
       message: "list of users",
       success: true,
       data: { meta, users },
     });
   } catch (error) {
     console.log({ error });
-    res.status(500).json({ success: false, message: "something went wrong" });
+    return res
+      .status(500)
+      .json({ success: false, message: "something went wrong" });
   }
 };
 
@@ -44,12 +46,12 @@ exports.getUserById = async (req, res) => {
   try {
     const user = await UserService.getUserById(req.params.id);
     if (!user) {
-      res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ error: "User not found" });
     } else {
-      res.json(user);
+      return res.json(user);
     }
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -57,7 +59,7 @@ exports.getUser = async (req, res) => {
   try {
     const user = await UserService.getUser(req.params.id);
     if (!user) {
-      res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ error: "User not found" });
     } else {
       res
         .status(200)
@@ -65,7 +67,7 @@ exports.getUser = async (req, res) => {
     }
   } catch (error) {
     console.log({ error });
-    res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -83,31 +85,39 @@ exports.updateUser = async (req, res) => {
     };
     const user = await UserService.updateUser(req.params.id, update_body);
     if (!user) {
-      res.status(404).json({ success: false, message: "User not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     } else {
       res
         .status(200)
         .json({ data: user, message: "user updated", success: true });
     }
   } catch (error) {
-    res.status(500).json({ message: "Internal Server Error", success: false });
+    return res
+      .status(500)
+      .json({ message: "Internal Server Error", success: false });
   }
 };
 
 exports.softDeleteUser = async (req, res) => {
   try {
-    await UserService.softDeleteUser(req.params.idOrPhoneOrUsername);
-    res.status(204).end();
+    await UserService.softDeleteUser(req.params.idOrEmailOrUsername);
+    return res.status(204).end();
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal Server Error" });
   }
 };
 
 exports.hardDeleteUser = async (req, res) => {
   try {
-    await UserService.hardDeleteUser(req.params.idOrPhoneOrUsername);
-    res.status(204).end();
+    await UserService.hardDeleteUser(req.params.idOrEmailOrUsername);
+    return res.status(204).end();
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal Server Error" });
   }
 };

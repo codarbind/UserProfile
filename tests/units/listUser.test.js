@@ -49,15 +49,4 @@ describe("GET /users", () => {
       },
     });
   });
-
-  /* it("should return an error if an exception occurs", async () => {
-    UserService.listUsers.mockRejectedValue(new Error("Internal Server Error"));
-
-    const response = await request(app).get("/users").expect(500);
-
-    expect(response.body).toEqual({
-      success: false,
-      message: "Failed to retrieve users",
-    });
-  });*/
 });

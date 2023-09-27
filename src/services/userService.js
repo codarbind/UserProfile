@@ -14,7 +14,7 @@ class UserService {
     try {
       let search_array = [];
 
-      idOrEmailOrUsername.length == 12
+      idOrEmailOrUsername.length == 24
         ? search_array.push({ _id: idOrEmailOrUsername })
         : undefined;
       const filter = {
@@ -121,13 +121,18 @@ class UserService {
     }
   }
 
-  async softDeleteUser(idOrPhoneOrUsername) {
+  async softDeleteUser(idOrEmailOrUsername) {
     try {
+      let filter_array = [];
+
+      idOrEmailOrUsername.length == 24
+        ? filter_array.push({ _id: idOrEmailOrUsername })
+        : undefined;
       const filter = {
         $or: [
-          { _id: idOrPhoneOrUsername },
-          { phone_number: idOrPhoneOrUsername },
-          { username: idOrPhoneOrUsername },
+          ...filter_array,
+          { email: idOrEmailOrUsername },
+          { username: idOrEmailOrUsername },
         ],
       };
       const update = { isDeleted: true };
@@ -138,13 +143,18 @@ class UserService {
     }
   }
 
-  async hardDeleteUser(idOrPhoneOrUsername) {
+  async hardDeleteUser(idOrEmailOrUsername) {
     try {
+      let filter_array = [];
+
+      idOrEmailOrUsername.length == 24
+        ? filter_array.push({ _id: idOrEmailOrUsername })
+        : undefined;
       const filter = {
         $or: [
-          { _id: idOrPhoneOrUsername },
-          { phone_number: idOrPhoneOrUsername },
-          { username: idOrPhoneOrUsername },
+          ...filter_array,
+          { email: idOrEmailOrUsername },
+          { username: idOrEmailOrUsername },
         ],
       };
       const deletedUser = await User.findOneAndDelete(filter);

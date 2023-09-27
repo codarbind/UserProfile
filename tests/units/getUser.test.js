@@ -74,17 +74,4 @@ describe("GET /users/:idOrEmailOrUsername", () => {
       data: { user: userData },
     });
   });
-
-  /*it("should return an error if the user does not exist", async () => {
-    UserService.getUser.mockResolvedValue(null);
-
-    const response = await request(app)
-      .get("/users/nonexistent_user")
-      .expect(404);
-
-    expect(response.body).toEqual({
-      success: false,
-      message: "User not found",
-    });
-  });*/
 });
