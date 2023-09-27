@@ -8,7 +8,8 @@
   },
   "scripts": {
     "dev": "nodemon",
-    "test:units": "jest --watch"
+    "test:units": "jest --watch",
+    "jest::clear-cache": "jest --clearCache"
   },
   "author": "",
   "license": "ISC",

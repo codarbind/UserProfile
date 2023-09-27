@@ -1,10 +1,10 @@
 const request = require("supertest");
-const userRoutes = require("../../src/routes/userRoutes");
-const UserService = require("../../src/services/userService");
-const app = require("../../src/app");
+const userRoutes = require("../../../src/routes/userRoutes");
+const UserService = require("../../../src/services/userService");
+const app = require("../../../src/app");
 
 // Mock UserService
-jest.mock("../../src/services/userService");
+jest.mock("../../../src/services/userService");
 
 describe("GET /users", () => {
   it("should return a list of users", async () => {
