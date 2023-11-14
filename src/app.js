@@ -9,7 +9,6 @@ const port = config.api.port;
 const userRoutes = require("../src/routes/userRoutes");
 app.use(bodyParser.json());
 testapp.use(bodyParser.json());
-
 app.use("/users", userRoutes);
 testapp.use("/users", userRoutes);
 

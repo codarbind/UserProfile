@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "nodemon",
     "test:units": "jest --watch",
-    "jest::clear-cache": "jest --clearCache"
+    "jest::clear-cache": "jest --clearCache",
+    "prepare": "husky install"
   },
   "author": "",
   "license": "ISC",
@@ -23,6 +24,7 @@
     "nodemon": "^3.0.1"
   },
   "devDependencies": {
+    "husky": "^8.0.3",
     "jest": "^29.7.0",
     "supertest": "^6.3.3"
   }
